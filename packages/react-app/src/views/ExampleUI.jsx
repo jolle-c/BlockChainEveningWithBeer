@@ -16,7 +16,7 @@ export default function ExampleUI({
   readContracts,
   writeContracts,
 }) {
-  const [newPurpose, setNewPurpose] = useState("loading...");
+  const [lotteryPrice, setLotteryPrice] = useState(1);
 
   return (
     <div>
@@ -30,7 +30,7 @@ export default function ExampleUI({
         <div style={{ margin: 8 }}>
           <Input
             onChange={e => {
-              setNewPurpose(e.target.value);
+              setLotteryPrice(e.target.value);
             }}
           />
           <Button
@@ -38,7 +38,7 @@ export default function ExampleUI({
             onClick={async () => {
               /* look how you call setPurpose on your contract: */
               /* notice how you pass a call back for tx updates too */
-              const result = tx(writeContracts.YourContract.setPurpose(newPurpose), update => {
+              const result = tx(writeContracts.YourContract.optIn({value: utils.parseEther("1")}), update => {
                 console.log("📡 Transaction Update:", update);
                 if (update && (update.status === "confirmed" || update.status === 1)) {
                   console.log(" 🍾 Transaction " + update.hash + " finished!");
@@ -57,7 +57,7 @@ export default function ExampleUI({
               console.log(await result);
             }}
           >
-            Set Purpose!
+            Participate in lottery!
           </Button>
         </div>
         <Divider />
